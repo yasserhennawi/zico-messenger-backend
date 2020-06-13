@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import routes from './controllers';
 // required to enable environment variables by dotenv lib. 
 import { } from 'dotenv/config'
 import mongoose from './mongoose';
@@ -19,3 +20,5 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
     res.send("Hello, express!")
 })
+
+routes(app)
