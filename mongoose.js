@@ -20,7 +20,11 @@ const handleProcessTermination = () => {
 
 
 export default () => {
-    mongoose.connect(URL, options);
+    try {
+        mongoose.connect(URL, options);
+    } catch (databaseError) {
+        handleError(databaseError)
+    }
 
     mongoose.connection.on('connected', handleConnection);
     mongoose.connection.on('error', handleError);
