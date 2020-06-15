@@ -8,7 +8,7 @@ import mongoose from './mongoose';
 // Opening database connection
 mongoose();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(bodyParser.json());
