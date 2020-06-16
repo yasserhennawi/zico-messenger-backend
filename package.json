@@ -8,7 +8,7 @@
     "dev": "nodemon dist/app.js --exec \"npm run build-dev\"",
     "start": "node ./dist/app.js",
     "build": "npm run clean && npm run build-babel",
-    "build-dev": "babel-node app.js - dist",
+    "build-dev": "babel-node ./src/app.js - dist",
     "build-babel": "babel -d ./dist ./src ",
     "clean": "rm -rf dist && mkdir dist"
   },
