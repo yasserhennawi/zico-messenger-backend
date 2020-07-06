@@ -1,5 +1,7 @@
-import TestRouter from "./test";
+import * as user from "./user";
+import * as message from "./message";
 
-export default (app) => {
-    app.use("/test", TestRouter)
-}
+export {
+  user,
+  message,
+};
