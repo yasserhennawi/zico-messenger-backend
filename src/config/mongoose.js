@@ -3,5 +3,4 @@ export const options = {
     "useUnifiedTopology": true
 }
 
-export const URL = process.env.URL;
-    
+export const DB_URL = process.env.DB_URL;
