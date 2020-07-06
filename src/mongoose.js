@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { URL, options } from "./config/mongoose";
+import { DB_URL, options } from "./config/mongoose";
 
 const handleConnection = () => {
     console.log("Mongoose opened connection.");
@@ -21,7 +21,7 @@ const handleProcessTermination = () => {
 
 export default () => {
     try {
-        mongoose.connect(URL, options);
+        mongoose.connect(DB_URL, options);
     } catch (databaseError) {
         handleError(databaseError)
     }
