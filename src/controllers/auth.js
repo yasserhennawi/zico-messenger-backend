@@ -1,13 +1,19 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { User } from "../models";
-import { user } from "../controllers";
+import { user as userController } from "../controllers";
 import { secret } from "../config";
 
 const key = secret.SECRET_KEY;
 
 export const register = (req, res) => {
-  const { name, image, phoneNumber, email, password: rawPassword } = req.body;
+  const {
+    name,
+    phoneNumber,
+    email,
+    password: rawPassword,
+    image,
+  } = req.body;
   var password = bcrypt.hashSync(rawPassword, 8);
 
   const newUser = new User({
@@ -18,7 +24,7 @@ export const register = (req, res) => {
     password,
   });
 
-  User.create(newUser, (err, createdUser) => {
+  User.create(newUser, async (err, { _id: id }) => {
     if (err)
       return res
         .status(500)
@@ -26,10 +32,12 @@ export const register = (req, res) => {
           "There was a problem registering the user." + JSON.stringify(err)
         );
     // create a token
-    var token = jwt.sign({ id: createdUser._id }, key, {
+    var token = jwt.sign({ id }, key, {
       expiresIn: 86400, // expires in 24 hours
     });
-    res.status(200).send({ auth: true, token: token });
+    const user = await userController.findByIdHandler(id);
+
+    res.status(200).send({ auth: true, token, user });
   });
 };
 export const me = async (req, res) => {
@@ -44,7 +52,7 @@ export const me = async (req, res) => {
         .send({ auth: false, message: "Failed to authenticate token." });
     }
     const id = decoded.id;
-    const me = await user.findByIdHandler(id);
+    const me = await userController.findByIdHandler(id);
 
     if (!me) res.status(404).send("No user found");
     res.send(JSON.stringify(me));
@@ -64,7 +72,7 @@ export const login = async (req, res) => {
       expiresIn: 86400, // expires in 24 hours
     });
 
-    res.status(200).send({ auth: true, token: token });
+    res.status(200).send({ auth: true, token, user });
   });
 };
 
