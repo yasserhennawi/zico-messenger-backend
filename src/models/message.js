@@ -12,7 +12,12 @@ const schema = new mongoose.Schema({
     receiverId: {
         type: String,
         required: true
-    }
+    },
+    receiverId: {
+        type: String,
+        required: true
+    },
+    time : { type : Date, default: Date.now }
 })
 
 export default mongoose.model("message", schema)
